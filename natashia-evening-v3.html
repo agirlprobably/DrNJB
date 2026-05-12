@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Natashia J. Benjamin — Celebration Dinner</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --pink:        #E8829A;
+  --pink-deep:   #C4536A;
+  --pink-soft:   #F2B3C0;
+  --pink-faint:  rgba(232,130,154,0.15);
+  --brown:       #6B3A2A;
+  --brown-mid:   #9B5B42;
+  --brown-light: #C4956A;
+  --black:       #0a0505;
+  --dark:        #120808;
+  --white:       #ffffff;
+  --off-white:   rgba(255,255,255,0.82);
+  --muted:       rgba(255,255,255,0.4);
+}
+
+html,body{
+  width:100%;height:100%;
+  background:var(--black);
+  color:var(--white);
+  font-family:'Syne',sans-serif;
+  overflow:hidden;
+  user-select:none;
+}
+
+.slide{
+  position:fixed;inset:0;
+  opacity:0;pointer-events:none;
+  display:flex;align-items:center;justify-content:center;
+}
+.slide.active{ opacity:1; pointer-events:all; }
+.slide.fade-in{ animation:fadeIn 0.75s ease forwards; }
+.slide.fade-out{ animation:fadeOut 0.45s ease forwards; pointer-events:none; }
+
+@keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
+@keyframes fadeOut{ from{opacity:1;} to{opacity:0;} }
+
+.slide.active .stagger>*{ animation:riseUp 0.65s ease both; }
+.slide.active .stagger>*:nth-child(1){animation-delay:0.12s;}
+.slide.active .stagger>*:nth-child(2){animation-delay:0.24s;}
+.slide.active .stagger>*:nth-child(3){animation-delay:0.36s;}
+.slide.active .stagger>*:nth-child(4){animation-delay:0.48s;}
+.slide.active .stagger>*:nth-child(5){animation-delay:0.58s;}
+.slide.active .stagger>*:nth-child(6){animation-delay:0.67s;}
+.slide.active .stagger>*:nth-child(7){animation-delay:0.75s;}
+
+@keyframes riseUp{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+.bg-prog{
+  position:absolute;inset:0;z-index:0;
+  background:radial-gradient(ellipse at 35% 45%, #2a0d12 0%, #0a0505 65%);
+}
+.bg-journey{
+  position:absolute;inset:0;z-index:0;
+  background:radial-gradient(ellipse at 65% 35%, #3a1018 0%, #0a0505 65%);
+}
+
+.blob{
+  position:absolute;border-radius:50%;
+  pointer-events:none;z-index:1;
+  filter:blur(60px);
+}
+
+.corners{position:absolute;inset:0;z-index:2;pointer-events:none;}
+.corners span{
+  position:absolute;font-size:20px;
+  color:var(--pink-soft);opacity:0.6;
+}
+.corners .tl{top:20px;left:20px;}
+.corners .tr{top:20px;right:20px;}
+.corners .bl{bottom:20px;left:20px;}
+.corners .br{bottom:20px;right:20px;}
+
+.inner-border{
+  position:absolute;inset:12px;
+  border:0.5px solid rgba(232,130,154,0.2);
+  pointer-events:none;z-index:2;
+}
+
+.progress-bar{
+  position:fixed;top:0;left:0;right:0;
+  height:3px;background:rgba(232,130,154,0.1);z-index:600;
+}
+.progress-fill{
+  height:100%;
+  background:linear-gradient(to right,var(--brown-mid),var(--pink));
+  transition:width 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+
+.top-bar{
+  position:fixed;top:0;left:0;right:0;
+  z-index:500;padding:1.3rem 2rem;
+  display:flex;justify-content:space-between;align-items:center;
+  pointer-events:none;
+}
+.top-left{
+  font-family:'Cormorant Garamond',serif;
+  font-size:12px;font-style:italic;
+  color:rgba(232,130,154,0.45);letter-spacing:0.08em;
+}
+.top-right{
+  font-size:8px;font-weight:600;letter-spacing:0.22em;
+  text-transform:uppercase;color:rgba(255,255,255,0.2);
+}
+
+.nav{
+  position:fixed;bottom:1.8rem;left:50%;
+  transform:translateX(-50%);
+  z-index:600;
+  display:flex;align-items:center;gap:1rem;
+}
+.nav-btn{
+  font-family:'Syne',sans-serif;
+  font-size:9px;font-weight:600;
+  letter-spacing:0.22em;text-transform:uppercase;
+  color:rgba(255,255,255,0.45);
+  background:rgba(232,130,154,0.07);
+  border:0.5px solid rgba(232,130,154,0.25);
+  padding:8px 22px;border-radius:100px;
+  cursor:pointer;transition:all 0.25s ease;
+}
+.nav-btn:hover{
+  color:var(--pink-soft);
+  border-color:rgba(232,130,154,0.6);
+  background:rgba(232,130,154,0.12);
+}
+.nav-btn.disabled{opacity:0.18;pointer-events:none;}
+.slide-counter{
+  font-size:9px;font-weight:500;letter-spacing:0.2em;
+  color:rgba(232,130,154,0.45);min-width:48px;text-align:center;
+}
+.key-hint{
+  position:fixed;bottom:1rem;right:2rem;
+  font-size:7.5px;letter-spacing:0.15em;
+  color:rgba(255,255,255,0.12);text-transform:uppercase;z-index:500;
+}
+
+.section-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:8.5px;font-weight:600;letter-spacing:0.32em;
+  text-transform:uppercase;color:var(--pink);
+  margin-bottom:1rem;opacity:0.8;
+}
+.section-badge::before,.section-badge::after{
+  content:'';display:inline-block;
+  width:22px;height:0.5px;background:var(--pink);opacity:0.5;
+}
+
+.prog-content{
+  position:relative;z-index:10;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:3rem 10%;width:100%;
+}
+.prog-main{
+  font-size:clamp(30px,4.5vw,60px);
+  font-weight:700;letter-spacing:0.07em;
+  color:var(--white);text-transform:uppercase;
+  line-height:1.1;margin-bottom:0.45rem;
+}
+.prog-sub{
+  font-size:clamp(11px,1.2vw,14px);font-weight:600;
+  letter-spacing:0.28em;text-transform:uppercase;
+  color:var(--pink);opacity:0.9;
+}
+.prog-italic{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(15px,1.9vw,21px);
+  font-style:italic;font-weight:300;
+  color:var(--off-white);letter-spacing:0.05em;
+  margin-top:0.9rem;max-width:580px;line-height:1.7;
+}
+
+.journey-intro{
+  position:relative;z-index:10;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:3rem 10%;width:100%;
+}
+.journey-title{
+  font-size:clamp(44px,6.5vw,86px);
+  font-weight:800;letter-spacing:0.05em;
+  text-transform:uppercase;line-height:1.0;
+  color:var(--white);margin-bottom:0.8rem;
+}
+.journey-title em{ font-style:normal; color:var(--pink); }
+.journey-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(15px,2vw,21px);
+  font-style:italic;font-weight:300;
+  color:var(--off-white);
+  max-width:560px;line-height:1.75;margin-bottom:1.6rem;
+}
+.schools-row{
+  display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center;
+}
+.school-pill{
+  font-size:8px;font-weight:600;letter-spacing:0.2em;
+  text-transform:uppercase;
+  border:0.5px solid rgba(232,130,154,0.35);
+  padding:5px 14px;border-radius:100px;
+  color:rgba(232,130,154,0.7);
+}
+
+.chapter-wrap{
+  position:relative;z-index:10;
+  display:flex;width:100%;height:100%;
+}
+.chapter-left{
+  width:38%;height:100%;flex-shrink:0;
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+}
+.arch-frame{
+  width:210px;height:290px;
+  border-radius:105px 105px 18px 18px;
+  background:rgba(232,130,154,0.06);
+  border:1px solid rgba(232,130,154,0.22);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:10px;overflow:hidden;position:relative;
+}
+.arch-frame img{
+  width:100%;height:100%;object-fit:cover;
+  border-radius:inherit;
+  filter:grayscale(100%) contrast(1.05) brightness(0.88);
+}
+.arch-placeholder{
+  display:flex;flex-direction:column;
+  align-items:center;gap:8px;padding:1.2rem;
+}
+.arch-hint{
+  font-size:8px;font-weight:600;letter-spacing:0.15em;
+  text-transform:uppercase;
+  color:rgba(232,130,154,0.4);
+  text-align:center;line-height:1.9;
+}
+.chapter-left::after{
+  content:'';position:absolute;
+  top:0;right:0;width:45%;height:100%;
+  background:linear-gradient(to right,transparent,#0a0505);
+  pointer-events:none;z-index:2;
+}
+.chapter-right{
+  flex:1;display:flex;flex-direction:column;
+  justify-content:center;
+  padding:3rem 4.5rem 3rem 1.5rem;
+}
+.ch-num{
+  font-size:8.5px;font-weight:600;letter-spacing:0.35em;
+  text-transform:uppercase;color:var(--pink);opacity:0.65;
+  margin-bottom:0.5rem;
+  display:flex;align-items:center;gap:8px;
+}
+.ch-num::after{
+  content:'';width:18px;height:0.5px;
+  background:var(--pink);opacity:0.5;display:inline-block;
+}
+.ch-school{
+  font-size:clamp(26px,3.2vw,44px);font-weight:800;
+  letter-spacing:0.05em;text-transform:uppercase;
+  color:var(--white);line-height:1.1;margin-bottom:0.35rem;
+}
+.ch-school-full{
+  font-family:'Cormorant Garamond',serif;
+  font-size:13px;font-style:italic;font-weight:300;
+  color:rgba(232,130,154,0.55);letter-spacing:0.1em;margin-bottom:1.1rem;
+}
+.ch-bar{width:36px;height:1px;background:rgba(232,130,154,0.35);margin-bottom:1.1rem;}
+.ch-speaker-label{
+  font-size:7.5px;font-weight:600;letter-spacing:0.3em;
+  text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:0.25rem;
+}
+.ch-speaker-name{
+  font-size:clamp(19px,2.3vw,30px);font-weight:700;
+  letter-spacing:0.05em;color:var(--white);margin-bottom:0.2rem;
+}
+.ch-speaker-role{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(14px,1.6vw,18px);
+  font-style:italic;font-weight:300;
+  color:var(--off-white);letter-spacing:0.04em;
+  line-height:1.65;max-width:360px;margin-bottom:1rem;
+}
+.ch-add-hint{
+  font-size:7.5px;font-weight:500;letter-spacing:0.18em;
+  text-transform:uppercase;color:rgba(232,130,154,0.25);
+}
+
+.completion-content{
+  position:relative;z-index:10;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:3rem 10%;width:100%;
+}
+.completion-icon{font-size:28px;margin-bottom:1rem;letter-spacing:0.3em;}
+.completion-main{
+  font-size:clamp(26px,3.5vw,50px);
+  font-weight:700;letter-spacing:0.07em;
+  text-transform:uppercase;color:var(--white);
+  line-height:1.15;margin-bottom:0.5rem;
+}
+.completion-sub{
+  font-size:12px;font-weight:600;letter-spacing:0.26em;
+  text-transform:uppercase;color:var(--pink);
+  opacity:0.85;margin-bottom:0.8rem;
+}
+.completion-italic{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(15px,1.9vw,20px);
+  font-style:italic;font-weight:300;
+  color:var(--off-white);max-width:560px;line-height:1.75;
+}
+
+.finale-content{
+  position:relative;z-index:10;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:3rem 10%;width:100%;
+}
+.finale-emoji{
+  font-size:30px;letter-spacing:0.35em;margin-bottom:1rem;
+  animation:popIn 0.55s ease 0.4s both;
+}
+@keyframes popIn{from{opacity:0;transform:scale(0.3);}to{opacity:1;transform:scale(1);}}
+.finale-name{
+  font-size:clamp(40px,5.8vw,76px);font-weight:800;
+  letter-spacing:0.04em;color:var(--pink);
+  line-height:1.0;text-transform:uppercase;margin-bottom:0.8rem;
+}
+.finale-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(16px,2vw,22px);font-style:italic;font-weight:300;
+  color:var(--off-white);max-width:580px;line-height:1.75;margin-bottom:1.5rem;
+}
+.finale-tag{
+  display:inline-block;
+  border:0.5px solid rgba(232,130,154,0.45);
+  padding:8px 28px;border-radius:100px;
+  font-size:9px;font-weight:600;letter-spacing:0.28em;
+  text-transform:uppercase;color:var(--pink-soft);
+}
+
+/* ══ HERO VECTOR DESIGN ══ */
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:#0a0505;
+  overflow:hidden;
+}
+.hero-content{
+  position:relative;z-index:10;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  width:100%;height:100%;
+  padding:3rem 12%;
+}
+.hero-eyebrow{
+  font-size:10px;font-weight:600;letter-spacing:0.35em;
+  text-transform:uppercase;color:rgba(255,255,255,0.5);
+  margin-bottom:0.4rem;
+}
+.hero-in-honor{
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;font-style:italic;font-weight:300;
+  color:rgba(255,255,255,0.38);letter-spacing:0.1em;
+  margin-bottom:0.5rem;
+}
+.hero-name{
+  font-size:clamp(36px,5.5vw,78px);font-weight:800;
+  color:var(--pink);letter-spacing:0.04em;line-height:1.0;
+  margin-bottom:0.8rem;
+}
+.hero-degree{
+  font-size:11px;font-weight:500;letter-spacing:0.18em;
+  color:rgba(255,255,255,0.55);line-height:2.2;
+  text-transform:uppercase;margin-bottom:1.8rem;
+}
+.hero-date{
+  display:inline-flex;align-items:center;gap:12px;
+  font-size:9px;font-weight:600;letter-spacing:0.3em;
+  text-transform:uppercase;color:rgba(232,130,154,0.55);
+}
+.hero-date::before,.hero-date::after{
+  content:'';display:inline-block;
+  width:28px;height:0.5px;
+  background:var(--pink);opacity:0.4;
+}
+.hero-cta{
+  margin-top:2rem;
+  font-size:8px;font-weight:600;letter-spacing:0.3em;
+  text-transform:uppercase;color:rgba(232,130,154,0.4);
+  animation:pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:0.3;}50%{opacity:0.9;}}
+
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+<div class="top-bar">
+  <div class="top-left">Dr. Natashia J. Benjamin · Celebration Dinner</div>
+  <div class="top-right">Saturday, May 16 · 2026</div>
+</div>
+<div class="nav">
+  <button class="nav-btn disabled" id="btnPrev" onclick="prev()">← Back</button>
+  <span class="slide-counter" id="counter">1 / 19</span>
+  <button class="nav-btn" id="btnNext" onclick="next()">Next →</button>
+</div>
+<div class="key-hint">← → keys or swipe</div>
+
+<!-- ══ 1: HERO — VECTOR ONLY ══ -->
+<div class="slide active" data-index="0">
+  <div class="hero-bg">
+    <!-- Vector SVG design — no photo -->
+    <svg width="100%" height="100%" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <!-- deep background rings -->
+      <circle cx="600" cy="350" r="520" fill="none" stroke="rgba(232,130,154,0.04)" stroke-width="1"/>
+      <circle cx="600" cy="350" r="420" fill="none" stroke="rgba(232,130,154,0.05)" stroke-width="0.5"/>
+      <circle cx="600" cy="350" r="320" fill="none" stroke="rgba(232,130,154,0.06)" stroke-width="0.5"/>
+      <circle cx="600" cy="350" r="220" fill="none" stroke="rgba(232,130,154,0.07)" stroke-width="0.5"/>
+      <!-- warm glow blobs -->
+      <ellipse cx="200" cy="150" rx="260" ry="200" fill="rgba(107,58,42,0.35)"/>
+      <ellipse cx="1050" cy="560" rx="240" ry="180" fill="rgba(196,83,106,0.2)"/>
+      <ellipse cx="900" cy="120" rx="180" ry="140" fill="rgba(232,130,154,0.1)"/>
+      <ellipse cx="150" cy="580" rx="160" ry="120" fill="rgba(155,91,66,0.2)"/>
+      <!-- thin diagonal lines -->
+      <line x1="0" y1="700" x2="700" y2="0" stroke="rgba(232,130,154,0.04)" stroke-width="1"/>
+      <line x1="100" y1="700" x2="800" y2="0" stroke="rgba(232,130,154,0.03)" stroke-width="0.5"/>
+      <line x1="500" y1="700" x2="1200" y2="0" stroke="rgba(232,130,154,0.03)" stroke-width="0.5"/>
+      <!-- corner ornament lines TL -->
+      <line x1="40" y1="40" x2="120" y2="40" stroke="rgba(232,130,154,0.35)" stroke-width="1"/>
+      <line x1="40" y1="40" x2="40" y2="120" stroke="rgba(232,130,154,0.35)" stroke-width="1"/>
+      <!-- corner ornament lines TR -->
+      <line x1="1160" y1="40" x2="1080" y2="40" stroke="rgba(232,130,154,0.35)" stroke-width="1"/>
+      <line x1="1160" y1="40" x2="1160" y2="120" stroke="rgba(232,130,154,0.35)" stroke-width="1"/>
+      <!-- corner ornament lines BL -->
+      <line x1="40" y1="660" x2="120" y2="660" stroke="rgba(232,130,154,0.35)" stroke-width="1"/>
+      <line x1="40" y1="660" x2="40" y2="580" stroke="rgba(232,130,154,0.35)" stroke-width="1"/>
+      <!-- corner ornament lines BR -->
+      <line x1="1160" y1="660" x2="1080" y2="660" stroke="rgba(232,130,154,0.35)" stroke-width="1"/>
+      <line x1="1160" y1="660" x2="1160" y2="580" stroke="rgba(232,130,154,0.35)" stroke-width="1"/>
+      <!-- corner stars -->
+      <text x="40" y="36" font-size="18" fill="rgba(242,179,192,0.7)" font-family="serif">✦</text>
+      <text x="1148" y="36" font-size="18" fill="rgba(242,179,192,0.7)" font-family="serif">✦</text>
+      <text x="40" y="678" font-size="18" fill="rgba(242,179,192,0.7)" font-family="serif">✦</text>
+      <text x="1148" y="678" font-size="18" fill="rgba(242,179,192,0.7)" font-family="serif">✦</text>
+      <!-- scattered small diamonds -->
+      <rect x="596" y="56" width="8" height="8" transform="rotate(45 600 60)" fill="rgba(232,130,154,0.3)"/>
+      <rect x="596" y="628" width="8" height="8" transform="rotate(45 600 632)" fill="rgba(232,130,154,0.3)"/>
+      <rect x="96" y="346" width="6" height="6" transform="rotate(45 99 349)" fill="rgba(232,130,154,0.2)"/>
+      <rect x="1096" y="346" width="6" height="6" transform="rotate(45 1099 349)" fill="rgba(232,130,154,0.2)"/>
+      <!-- top horizontal rule -->
+      <line x1="380" y1="148" x2="820" y2="148" stroke="rgba(232,130,154,0.2)" stroke-width="0.5"/>
+      <!-- bottom horizontal rule -->
+      <line x1="380" y1="552" x2="820" y2="552" stroke="rgba(232,130,154,0.2)" stroke-width="0.5"/>
+    </svg>
+  </div>
+  <div class="inner-border"></div>
+  <div class="hero-content stagger">
+    <div class="hero-eyebrow">A Celebratory Dinner</div>
+    <div class="hero-in-honor">In honor of</div>
+    <div class="hero-name">Dr. Natashia<br>J. Benjamin</div>
+    <div class="hero-degree">
+      Doctor of Philosophy · 2026<br>
+      Bioinformatics &amp; Genomics · Penn State University
+    </div>
+    <div class="hero-date">Saturday, May 16th, 2026</div>
+    <div class="hero-cta">Click or press → to begin ✦</div>
+  </div>
+</div>
+
+<!-- ══ 2: ARRIVAL ══ -->
+<div class="slide" data-index="1">
+  <div class="bg-prog"></div>
+  <div class="blob" style="width:400px;height:400px;top:-100px;left:-80px;background:rgba(107,58,42,0.3);"></div>
+  <div class="blob" style="width:250px;height:250px;bottom:-60px;right:80px;background:rgba(232,130,154,0.1);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="prog-content stagger">
+    <div class="section-badge">Program</div>
+    <div class="prog-main">Arrival</div>
+    <div class="prog-italic">Welcome — take your seats, the evening begins.</div>
+  </div>
+</div>
+
+<!-- ══ 3: OPENING PRAYER ══ -->
+<div class="slide" data-index="2">
+  <div class="bg-prog"></div>
+  <div class="blob" style="width:350px;height:350px;top:-80px;right:-60px;background:rgba(196,83,106,0.12);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="prog-content stagger">
+    <div class="section-badge">Program</div>
+    <div class="prog-main">Opening Prayer</div>
+    <div class="prog-sub">Roy Anderson</div>
+  </div>
+</div>
+
+<!-- ══ 4: OPENING REMARKS ══ -->
+<div class="slide" data-index="3">
+  <div class="bg-prog"></div>
+  <div class="blob" style="width:380px;height:380px;bottom:-100px;left:-60px;background:rgba(107,58,42,0.25);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="prog-content stagger">
+    <div class="section-badge">Program</div>
+    <div class="prog-main">Opening Remarks</div>
+    <div class="prog-sub">André Harris</div>
+  </div>
+</div>
+
+<!-- ══ 5: DINNER ══ -->
+<div class="slide" data-index="4">
+  <div class="bg-prog"></div>
+  <div class="blob" style="width:300px;height:300px;top:-60px;left:40%;background:rgba(196,83,106,0.1);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="prog-content stagger">
+    <div class="section-badge">Program</div>
+    <div class="prog-main">Dinner</div>
+    <div class="prog-italic">Eat, laugh, celebrate — she earned every bite of this.</div>
+  </div>
+</div>
+
+<!-- ══ 6: THE JOURNEY INTRO ══ -->
+<div class="slide" data-index="5">
+  <div class="bg-journey"></div>
+  <div class="blob" style="width:500px;height:500px;top:-150px;right:-100px;background:rgba(196,83,106,0.14);"></div>
+  <div class="blob" style="width:280px;height:280px;bottom:-80px;left:-40px;background:rgba(107,58,42,0.3);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="inner-border"></div>
+  <div class="journey-intro stagger">
+    <div class="section-badge">Presentation</div>
+    <div class="journey-title">The <em>Journey</em></div>
+    <div class="journey-sub">From Seaview to State College. Every school, every teacher, every chapter — told by the people who were there.</div>
+    <div class="schools-row">
+      <span class="school-pill">Seaview Basic</span>
+      <span class="school-pill">Fair Prospect Primary</span>
+      <span class="school-pill">Titchfield High</span>
+      <span class="school-pill">UDC</span>
+      <span class="school-pill">Penn State</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 7: CHAPTER 1 — SEAVIEW ══ -->
+<div class="slide" data-index="6">
+  <div class="bg-journey"></div>
+  <div class="blob" style="width:320px;height:320px;top:-80px;left:-60px;background:rgba(107,58,42,0.35);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="chapter-wrap stagger">
+    <div class="chapter-left">
+      <div class="arch-frame">
+        <div class="arch-placeholder">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="rgba(232,130,154,0.45)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <div class="arch-hint">Add photo<br>of them together</div>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-right">
+      <div class="ch-num">Chapter One</div>
+      <div class="ch-school">Seaview</div>
+      <div class="ch-school-full">Seaview Basic School · Portland, Jamaica</div>
+      <div class="ch-bar"></div>
+      <div class="ch-speaker-label">Speaking tonight</div>
+      <div class="ch-speaker-name">Shanique Benjamin</div>
+      <div class="ch-speaker-role">The big sister who watched her grow</div>
+      <div class="ch-add-hint">↑ Replace with your photo</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 8: CHAPTER 2 — FAIR PROSPECT ══ -->
+<div class="slide" data-index="7">
+  <div class="bg-journey"></div>
+  <div class="blob" style="width:360px;height:360px;bottom:-100px;right:-60px;background:rgba(196,83,106,0.12);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="chapter-wrap stagger">
+    <div class="chapter-left">
+      <div class="arch-frame">
+        <div class="arch-placeholder">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="rgba(232,130,154,0.45)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <div class="arch-hint">Add photo<br>of them together</div>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-right">
+      <div class="ch-num">Chapter Two</div>
+      <div class="ch-school">Fair Prospect</div>
+      <div class="ch-school-full">Fair Prospect Primary · Portland, Jamaica</div>
+      <div class="ch-bar"></div>
+      <div class="ch-speaker-label">Speaking tonight</div>
+      <div class="ch-speaker-name">Patrice Sterling</div>
+      <div class="ch-speaker-role">A classmate from those early foundations</div>
+      <div class="ch-add-hint">↑ Replace with your photo</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 9: CHAPTER 3 — TITCHFIELD ══ -->
+<div class="slide" data-index="8">
+  <div class="bg-journey"></div>
+  <div class="blob" style="width:400px;height:400px;top:-120px;right:-80px;background:rgba(107,58,42,0.3);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="chapter-wrap stagger">
+    <div class="chapter-left">
+      <div class="arch-frame">
+        <div class="arch-placeholder">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="rgba(232,130,154,0.45)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <div class="arch-hint">Add photo<br>of them together</div>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-right">
+      <div class="ch-num">Chapter Three</div>
+      <div class="ch-school">Titchfield</div>
+      <div class="ch-school-full">Titchfield High School · Port Antonio, Jamaica</div>
+      <div class="ch-bar"></div>
+      <div class="ch-speaker-label">Speaking tonight</div>
+      <div class="ch-speaker-name">Shaneaka Anderson</div>
+      <div class="ch-speaker-role">The bestie — she knows every chapter of this story</div>
+      <div class="ch-add-hint">↑ Replace with your photo</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 10: CHAPTER 4 — UDC ══ -->
+<div class="slide" data-index="9">
+  <div class="bg-journey"></div>
+  <div class="blob" style="width:320px;height:320px;bottom:-80px;left:-40px;background:rgba(196,83,106,0.15);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="chapter-wrap stagger">
+    <div class="chapter-left">
+      <div class="arch-frame">
+        <div class="arch-placeholder">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="rgba(232,130,154,0.45)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <div class="arch-hint">Add photo<br>of them together</div>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-right">
+      <div class="ch-num">Chapter Four</div>
+      <div class="ch-school">UDC</div>
+      <div class="ch-school-full">University of the District of Columbia · Washington D.C.</div>
+      <div class="ch-bar"></div>
+      <div class="ch-speaker-label">Speaking tonight</div>
+      <div class="ch-speaker-name">Brandon Myers</div>
+      <div class="ch-speaker-role">A witness to her crossing the water</div>
+      <div class="ch-add-hint">↑ Replace with your photo</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 11: CHAPTER 5 — PENN STATE ══ -->
+<div class="slide" data-index="10">
+  <div class="bg-journey"></div>
+  <div class="blob" style="width:380px;height:380px;top:-100px;left:-70px;background:rgba(107,58,42,0.28);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="chapter-wrap stagger">
+    <div class="chapter-left">
+      <div class="arch-frame">
+        <div class="arch-placeholder">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="rgba(232,130,154,0.45)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <div class="arch-hint">Add photo<br>of them together</div>
+        </div>
+      </div>
+    </div>
+    <div class="chapter-right">
+      <div class="ch-num">Chapter Five</div>
+      <div class="ch-school">Penn State</div>
+      <div class="ch-school-full">Pennsylvania State University · Bioinformatics &amp; Genomics</div>
+      <div class="ch-bar"></div>
+      <div class="ch-speaker-label">Speaking tonight</div>
+      <div class="ch-speaker-name">Ayodele Olusesan</div>
+      <div class="ch-speaker-role">A colleague at the summit</div>
+      <div class="ch-add-hint">↑ Replace with your photo</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 12: PRESENTATION OF COMPLETION ══ -->
+<div class="slide" data-index="11">
+  <div class="bg-journey"></div>
+  <div class="blob" style="width:450px;height:450px;top:-120px;right:-80px;background:rgba(196,83,106,0.13);"></div>
+  <div class="blob" style="width:200px;height:200px;bottom:-50px;left:100px;background:rgba(107,58,42,0.25);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="inner-border"></div>
+  <div class="completion-content stagger">
+    <div class="completion-icon">🌸 ✦ 🌸</div>
+    <div class="section-badge">The Journey · Finale</div>
+    <div class="completion-main">Presentation of<br>Completion</div>
+    <div class="completion-sub">Valerie Crawford · Her Mom</div>
+    <div class="completion-italic">The academic course is complete. Presented with love, by the woman who believed first.</div>
+  </div>
+</div>
+
+<!-- ══ 13: JOURNEY FINALE ══ -->
+<div class="slide" data-index="12">
+  <div class="bg-journey"></div>
+  <div class="blob" style="width:500px;height:500px;top:-150px;right:-100px;background:rgba(196,83,106,0.15);"></div>
+  <div class="blob" style="width:300px;height:300px;bottom:-80px;left:-50px;background:rgba(107,58,42,0.3);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="inner-border"></div>
+  <div class="finale-content stagger">
+    <div class="finale-emoji">🎓 ✦ 🌸</div>
+    <div class="finale-name">Dr. Natashia<br>J. Benjamin</div>
+    <div class="finale-sub">From Seaview to State College. Portland to Penn State. Every step was the journey — this was always the destination.</div>
+    <div class="finale-tag">We always knew ✦</div>
+  </div>
+</div>
+
+<!-- ══ 14: GRADUATE'S GAME ══ -->
+<div class="slide" data-index="13">
+  <div class="bg-prog"></div>
+  <div class="blob" style="width:350px;height:350px;top:-80px;right:-50px;background:rgba(196,83,106,0.12);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="prog-content stagger">
+    <div class="section-badge">Program</div>
+    <div class="prog-main">The Graduate's<br>Game</div>
+    <div class="prog-italic">She made a whole game for us. Of course she did.</div>
+  </div>
+</div>
+
+<!-- ══ 15: APPRECIATION SESSION ══ -->
+<div class="slide" data-index="14">
+  <div class="bg-prog"></div>
+  <div class="blob" style="width:400px;height:400px;bottom:-100px;left:-60px;background:rgba(107,58,42,0.28);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="prog-content stagger">
+    <div class="section-badge">Program</div>
+    <div class="prog-main">Appreciation<br>Session</div>
+    <div class="prog-italic">Short and sweet — from people who love her most.</div>
+  </div>
+</div>
+
+<!-- ══ 16: A CELEBRATORY SONG ══ -->
+<div class="slide" data-index="15">
+  <div class="bg-prog"></div>
+  <div class="blob" style="width:380px;height:380px;top:-90px;left:-50px;background:rgba(196,83,106,0.13);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="prog-content stagger">
+    <div class="section-badge">Program</div>
+    <div class="prog-main">A Celebratory<br>Song for Her</div>
+    <div class="prog-sub">The Singers</div>
+  </div>
+</div>
+
+<!-- ══ 17: GRADUATE'S RESPONSE ══ -->
+<div class="slide" data-index="16">
+  <div class="bg-prog"></div>
+  <div class="blob" style="width:340px;height:340px;bottom:-80px;right:-40px;background:rgba(107,58,42,0.25);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="prog-content stagger">
+    <div class="section-badge">Program</div>
+    <div class="prog-main">Graduate's Response<br>&amp; Remarks</div>
+    <div class="prog-sub">Dr. Natashia J. Benjamin</div>
+  </div>
+</div>
+
+<!-- ══ 18: VOTE OF THANKS ══ -->
+<div class="slide" data-index="17">
+  <div class="bg-prog"></div>
+  <div class="blob" style="width:360px;height:360px;top:-90px;right:-60px;background:rgba(196,83,106,0.12);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="prog-content stagger">
+    <div class="section-badge">Program</div>
+    <div class="prog-main">Vote of Thanks</div>
+    <div class="prog-sub">Cameca Speid</div>
+  </div>
+</div>
+
+<!-- ══ 19: CLOSING PRAYER ══ -->
+<div class="slide" data-index="18">
+  <div class="bg-prog"></div>
+  <div class="blob" style="width:420px;height:420px;bottom:-110px;left:-70px;background:rgba(107,58,42,0.3);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="prog-content stagger">
+    <div class="section-badge">Program</div>
+    <div class="prog-main">Closing Prayer</div>
+    <div class="prog-sub">Elder Donna Neufville</div>
+  </div>
+</div>
+
+<script>
+const slides = Array.from(document.querySelectorAll('.slide'));
+const total = slides.length;
+let current = 0, animating = false;
+
+function goTo(index) {
+  if (index === current || animating || index < 0 || index >= total) return;
+  animating = true;
+  const prev = current;
+  current = index;
+  slides[prev].classList.add('fade-out');
+  slides[prev].classList.remove('active');
+  setTimeout(() => {
+    slides[prev].classList.remove('fade-out');
+    slides[current].classList.add('active','fade-in');
+    setTimeout(() => { slides[current].classList.remove('fade-in'); animating = false; }, 750);
+  }, 450);
+  updateUI();
+}
+
+function next() { goTo(current + 1); }
+function prev() { goTo(current - 1); }
+
+function updateUI() {
+  document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+  document.getElementById('progressFill').style.width = ((current / (total - 1)) * 100) + '%';
+  document.getElementById('btnPrev').classList.toggle('disabled', current === 0);
+  document.getElementById('btnNext').classList.toggle('disabled', current === total - 1);
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+});
+
+let tx = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 50) { dx < 0 ? next() : prev(); }
+}, {passive:true});
+
+document.addEventListener('click', e => {
+  if (e.target.closest('.nav') || e.target.closest('button')) return;
+  e.clientX > window.innerWidth * 0.6 ? next() : (e.clientX < window.innerWidth * 0.4 ? prev() : null);
+});
+
+updateUI();
+</script>
+</body>
+</html>
