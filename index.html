@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-
+ 
 :root{
   --pink:        #E8829A;
   --pink-deep:   #C4536A;
@@ -22,7 +22,7 @@
   --off-white:   rgba(255,255,255,0.82);
   --muted:       rgba(255,255,255,0.4);
 }
-
+ 
 html,body{
   width:100%;height:100%;
   background:var(--black);
@@ -31,7 +31,7 @@ html,body{
   overflow:hidden;
   user-select:none;
 }
-
+ 
 .slide{
   position:fixed;inset:0;
   opacity:0;pointer-events:none;
@@ -40,10 +40,10 @@ html,body{
 .slide.active{ opacity:1; pointer-events:all; }
 .slide.fade-in{ animation:fadeIn 0.75s ease forwards; }
 .slide.fade-out{ animation:fadeOut 0.45s ease forwards; pointer-events:none; }
-
+ 
 @keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
 @keyframes fadeOut{ from{opacity:1;} to{opacity:0;} }
-
+ 
 .slide.active .stagger>*{ animation:riseUp 0.65s ease both; }
 .slide.active .stagger>*:nth-child(1){animation-delay:0.12s;}
 .slide.active .stagger>*:nth-child(2){animation-delay:0.24s;}
@@ -52,12 +52,12 @@ html,body{
 .slide.active .stagger>*:nth-child(5){animation-delay:0.58s;}
 .slide.active .stagger>*:nth-child(6){animation-delay:0.67s;}
 .slide.active .stagger>*:nth-child(7){animation-delay:0.75s;}
-
+ 
 @keyframes riseUp{
   from{opacity:0;transform:translateY(20px);}
   to{opacity:1;transform:translateY(0);}
 }
-
+ 
 .bg-prog{
   position:absolute;inset:0;z-index:0;
   background:radial-gradient(ellipse at 35% 45%, #2a0d12 0%, #0a0505 65%);
@@ -66,13 +66,13 @@ html,body{
   position:absolute;inset:0;z-index:0;
   background:radial-gradient(ellipse at 65% 35%, #3a1018 0%, #0a0505 65%);
 }
-
+ 
 .blob{
   position:absolute;border-radius:50%;
   pointer-events:none;z-index:1;
   filter:blur(60px);
 }
-
+ 
 .corners{position:absolute;inset:0;z-index:2;pointer-events:none;}
 .corners span{
   position:absolute;font-size:20px;
@@ -82,13 +82,13 @@ html,body{
 .corners .tr{top:20px;right:20px;}
 .corners .bl{bottom:20px;left:20px;}
 .corners .br{bottom:20px;right:20px;}
-
+ 
 .inner-border{
   position:absolute;inset:12px;
   border:0.5px solid rgba(232,130,154,0.2);
   pointer-events:none;z-index:2;
 }
-
+ 
 .progress-bar{
   position:fixed;top:0;left:0;right:0;
   height:3px;background:rgba(232,130,154,0.1);z-index:600;
@@ -98,7 +98,7 @@ html,body{
   background:linear-gradient(to right,var(--brown-mid),var(--pink));
   transition:width 0.7s cubic-bezier(0.4,0,0.2,1);
 }
-
+ 
 .top-bar{
   position:fixed;top:0;left:0;right:0;
   z-index:500;padding:1.3rem 2rem;
@@ -114,7 +114,7 @@ html,body{
   font-size:8px;font-weight:600;letter-spacing:0.22em;
   text-transform:uppercase;color:rgba(255,255,255,0.2);
 }
-
+ 
 .nav{
   position:fixed;bottom:1.8rem;left:50%;
   transform:translateX(-50%);
@@ -146,7 +146,7 @@ html,body{
   font-size:7.5px;letter-spacing:0.15em;
   color:rgba(255,255,255,0.12);text-transform:uppercase;z-index:500;
 }
-
+ 
 .section-badge{
   display:inline-flex;align-items:center;gap:8px;
   font-size:8.5px;font-weight:600;letter-spacing:0.32em;
@@ -157,7 +157,7 @@ html,body{
   content:'';display:inline-block;
   width:22px;height:0.5px;background:var(--pink);opacity:0.5;
 }
-
+ 
 .prog-content{
   position:relative;z-index:10;
   display:flex;flex-direction:column;
@@ -182,7 +182,7 @@ html,body{
   color:var(--off-white);letter-spacing:0.05em;
   margin-top:0.9rem;max-width:580px;line-height:1.7;
 }
-
+ 
 .journey-intro{
   position:relative;z-index:10;
   display:flex;flex-direction:column;
@@ -213,7 +213,7 @@ html,body{
   padding:5px 14px;border-radius:100px;
   color:rgba(232,130,154,0.7);
 }
-
+ 
 .chapter-wrap{
   position:relative;z-index:10;
   display:flex;width:100%;height:100%;
@@ -298,7 +298,7 @@ html,body{
   font-size:7.5px;font-weight:500;letter-spacing:0.18em;
   text-transform:uppercase;color:rgba(232,130,154,0.25);
 }
-
+ 
 .completion-content{
   position:relative;z-index:10;
   display:flex;flex-direction:column;
@@ -323,7 +323,7 @@ html,body{
   font-style:italic;font-weight:300;
   color:var(--off-white);max-width:560px;line-height:1.75;
 }
-
+ 
 .finale-content{
   position:relative;z-index:10;
   display:flex;flex-direction:column;
@@ -352,7 +352,7 @@ html,body{
   font-size:9px;font-weight:600;letter-spacing:0.28em;
   text-transform:uppercase;color:var(--pink-soft);
 }
-
+ 
 /* ══ HERO VECTOR DESIGN ══ */
 .hero-bg{
   position:absolute;inset:0;z-index:0;
@@ -405,11 +405,11 @@ html,body{
   animation:pulse 2.5s ease-in-out infinite;
 }
 @keyframes pulse{0%,100%{opacity:0.3;}50%{opacity:0.9;}}
-
+ 
 </style>
 </head>
 <body>
-
+ 
 <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
 <div class="top-bar">
   <div class="top-left">Dr. Natashia J. Benjamin · Celebration Dinner</div>
@@ -417,11 +417,11 @@ html,body{
 </div>
 <div class="nav">
   <button class="nav-btn disabled" id="btnPrev" onclick="prev()">← Back</button>
-  <span class="slide-counter" id="counter">1 / 19</span>
+  <span class="slide-counter" id="counter">1 / 20</span>
   <button class="nav-btn" id="btnNext" onclick="next()">Next →</button>
 </div>
 <div class="key-hint">← → keys or swipe</div>
-
+ 
 <!-- ══ 1: HERO — VECTOR ONLY ══ -->
 <div class="slide active" data-index="0">
   <div class="hero-bg">
@@ -482,7 +482,7 @@ html,body{
     <div class="hero-cta">Click or press → to begin ✦</div>
   </div>
 </div>
-
+ 
 <!-- ══ 2: ARRIVAL ══ -->
 <div class="slide" data-index="1">
   <div class="bg-prog"></div>
@@ -495,7 +495,7 @@ html,body{
     <div class="prog-italic">Welcome — take your seats, the evening begins.</div>
   </div>
 </div>
-
+ 
 <!-- ══ 3: OPENING PRAYER ══ -->
 <div class="slide" data-index="2">
   <div class="bg-prog"></div>
@@ -504,10 +504,10 @@ html,body{
   <div class="prog-content stagger">
     <div class="section-badge">Program</div>
     <div class="prog-main">Opening Prayer</div>
-    <div class="prog-sub">Roy Anderson</div>
+    <div class="prog-sub">Deacon Roy Anderson</div>
   </div>
 </div>
-
+ 
 <!-- ══ 4: OPENING REMARKS ══ -->
 <div class="slide" data-index="3">
   <div class="bg-prog"></div>
@@ -519,9 +519,21 @@ html,body{
     <div class="prog-sub">André Harris</div>
   </div>
 </div>
-
-<!-- ══ 5: DINNER ══ -->
+ 
+<!-- ══ 5: INTRODUCTION OF THE GRADUANT ══ -->
 <div class="slide" data-index="4">
+  <div class="bg-prog"></div>
+  <div class="blob" style="width:360px;height:360px;top:-80px;left:-50px;background:rgba(107,58,42,0.28);"></div>
+  <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
+  <div class="prog-content stagger">
+    <div class="section-badge">Program</div>
+    <div class="prog-main">Introduction of<br>the Graduant</div>
+    <div class="prog-sub">Shaneaka Anderson</div>
+  </div>
+</div>
+ 
+<!-- ══ 6: DINNER ══ -->
+<div class="slide" data-index="5">
   <div class="bg-prog"></div>
   <div class="blob" style="width:300px;height:300px;top:-60px;left:40%;background:rgba(196,83,106,0.1);"></div>
   <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
@@ -531,9 +543,9 @@ html,body{
     <div class="prog-italic">Eat, laugh, celebrate — she earned every bite of this.</div>
   </div>
 </div>
-
+ 
 <!-- ══ 6: THE JOURNEY INTRO ══ -->
-<div class="slide" data-index="5">
+<div class="slide" data-index="6">
   <div class="bg-journey"></div>
   <div class="blob" style="width:500px;height:500px;top:-150px;right:-100px;background:rgba(196,83,106,0.14);"></div>
   <div class="blob" style="width:280px;height:280px;bottom:-80px;left:-40px;background:rgba(107,58,42,0.3);"></div>
@@ -552,9 +564,9 @@ html,body{
     </div>
   </div>
 </div>
-
+ 
 <!-- ══ 7: CHAPTER 1 — SEAVIEW ══ -->
-<div class="slide" data-index="6">
+<div class="slide" data-index="7">
   <div class="bg-journey"></div>
   <div class="blob" style="width:320px;height:320px;top:-80px;left:-60px;background:rgba(107,58,42,0.35);"></div>
   <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
@@ -579,9 +591,9 @@ html,body{
     </div>
   </div>
 </div>
-
+ 
 <!-- ══ 8: CHAPTER 2 — FAIR PROSPECT ══ -->
-<div class="slide" data-index="7">
+<div class="slide" data-index="8">
   <div class="bg-journey"></div>
   <div class="blob" style="width:360px;height:360px;bottom:-100px;right:-60px;background:rgba(196,83,106,0.12);"></div>
   <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
@@ -606,9 +618,9 @@ html,body{
     </div>
   </div>
 </div>
-
+ 
 <!-- ══ 9: CHAPTER 3 — TITCHFIELD ══ -->
-<div class="slide" data-index="8">
+<div class="slide" data-index="9">
   <div class="bg-journey"></div>
   <div class="blob" style="width:400px;height:400px;top:-120px;right:-80px;background:rgba(107,58,42,0.3);"></div>
   <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
@@ -633,9 +645,9 @@ html,body{
     </div>
   </div>
 </div>
-
+ 
 <!-- ══ 10: CHAPTER 4 — UDC ══ -->
-<div class="slide" data-index="9">
+<div class="slide" data-index="10">
   <div class="bg-journey"></div>
   <div class="blob" style="width:320px;height:320px;bottom:-80px;left:-40px;background:rgba(196,83,106,0.15);"></div>
   <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
@@ -660,9 +672,9 @@ html,body{
     </div>
   </div>
 </div>
-
+ 
 <!-- ══ 11: CHAPTER 5 — PENN STATE ══ -->
-<div class="slide" data-index="10">
+<div class="slide" data-index="11">
   <div class="bg-journey"></div>
   <div class="blob" style="width:380px;height:380px;top:-100px;left:-70px;background:rgba(107,58,42,0.28);"></div>
   <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
@@ -687,9 +699,9 @@ html,body{
     </div>
   </div>
 </div>
-
+ 
 <!-- ══ 12: PRESENTATION OF COMPLETION ══ -->
-<div class="slide" data-index="11">
+<div class="slide" data-index="12">
   <div class="bg-journey"></div>
   <div class="blob" style="width:450px;height:450px;top:-120px;right:-80px;background:rgba(196,83,106,0.13);"></div>
   <div class="blob" style="width:200px;height:200px;bottom:-50px;left:100px;background:rgba(107,58,42,0.25);"></div>
@@ -703,9 +715,9 @@ html,body{
     <div class="completion-italic">The academic course is complete. Presented with love, by the woman who believed first.</div>
   </div>
 </div>
-
+ 
 <!-- ══ 13: JOURNEY FINALE ══ -->
-<div class="slide" data-index="12">
+<div class="slide" data-index="13">
   <div class="bg-journey"></div>
   <div class="blob" style="width:500px;height:500px;top:-150px;right:-100px;background:rgba(196,83,106,0.15);"></div>
   <div class="blob" style="width:300px;height:300px;bottom:-80px;left:-50px;background:rgba(107,58,42,0.3);"></div>
@@ -718,21 +730,21 @@ html,body{
     <div class="finale-tag">We always knew ✦</div>
   </div>
 </div>
-
+ 
 <!-- ══ 14: GRADUATE'S GAME ══ -->
-<div class="slide" data-index="13">
+<div class="slide" data-index="14">
   <div class="bg-prog"></div>
   <div class="blob" style="width:350px;height:350px;top:-80px;right:-50px;background:rgba(196,83,106,0.12);"></div>
   <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
   <div class="prog-content stagger">
     <div class="section-badge">Program</div>
-    <div class="prog-main">The Graduate's<br>Game</div>
-    <div class="prog-italic">She made a whole game for us. Of course she did.</div>
+    <div class="prog-main">Let's See Who<br>Knows the Doctor Best</div>
+    <div class="prog-italic">Think you know her? Prove it.</div>
   </div>
 </div>
-
+ 
 <!-- ══ 15: APPRECIATION SESSION ══ -->
-<div class="slide" data-index="14">
+<div class="slide" data-index="15">
   <div class="bg-prog"></div>
   <div class="blob" style="width:400px;height:400px;bottom:-100px;left:-60px;background:rgba(107,58,42,0.28);"></div>
   <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
@@ -742,9 +754,9 @@ html,body{
     <div class="prog-italic">Short and sweet — from people who love her most.</div>
   </div>
 </div>
-
+ 
 <!-- ══ 16: A CELEBRATORY SONG ══ -->
-<div class="slide" data-index="15">
+<div class="slide" data-index="16">
   <div class="bg-prog"></div>
   <div class="blob" style="width:380px;height:380px;top:-90px;left:-50px;background:rgba(196,83,106,0.13);"></div>
   <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
@@ -754,9 +766,9 @@ html,body{
     <div class="prog-sub">The Singers</div>
   </div>
 </div>
-
+ 
 <!-- ══ 17: GRADUATE'S RESPONSE ══ -->
-<div class="slide" data-index="16">
+<div class="slide" data-index="17">
   <div class="bg-prog"></div>
   <div class="blob" style="width:340px;height:340px;bottom:-80px;right:-40px;background:rgba(107,58,42,0.25);"></div>
   <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
@@ -766,9 +778,9 @@ html,body{
     <div class="prog-sub">Dr. Natashia J. Benjamin</div>
   </div>
 </div>
-
+ 
 <!-- ══ 18: VOTE OF THANKS ══ -->
-<div class="slide" data-index="17">
+<div class="slide" data-index="18">
   <div class="bg-prog"></div>
   <div class="blob" style="width:360px;height:360px;top:-90px;right:-60px;background:rgba(196,83,106,0.12);"></div>
   <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
@@ -778,9 +790,9 @@ html,body{
     <div class="prog-sub">Cameca Speid</div>
   </div>
 </div>
-
+ 
 <!-- ══ 19: CLOSING PRAYER ══ -->
-<div class="slide" data-index="18">
+<div class="slide" data-index="19">
   <div class="bg-prog"></div>
   <div class="blob" style="width:420px;height:420px;bottom:-110px;left:-70px;background:rgba(107,58,42,0.3);"></div>
   <div class="corners"><span class="tl">✦</span><span class="tr">✦</span><span class="bl">✦</span><span class="br">✦</span></div>
@@ -790,12 +802,12 @@ html,body{
     <div class="prog-sub">Elder Donna Neufville</div>
   </div>
 </div>
-
+ 
 <script>
 const slides = Array.from(document.querySelectorAll('.slide'));
 const total = slides.length;
 let current = 0, animating = false;
-
+ 
 function goTo(index) {
   if (index === current || animating || index < 0 || index >= total) return;
   animating = true;
@@ -810,34 +822,34 @@ function goTo(index) {
   }, 450);
   updateUI();
 }
-
+ 
 function next() { goTo(current + 1); }
 function prev() { goTo(current - 1); }
-
+ 
 function updateUI() {
   document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
   document.getElementById('progressFill').style.width = ((current / (total - 1)) * 100) + '%';
   document.getElementById('btnPrev').classList.toggle('disabled', current === 0);
   document.getElementById('btnNext').classList.toggle('disabled', current === total - 1);
 }
-
+ 
 document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
   if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
 });
-
+ 
 let tx = 0;
 document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
 document.addEventListener('touchend', e => {
   const dx = e.changedTouches[0].clientX - tx;
   if (Math.abs(dx) > 50) { dx < 0 ? next() : prev(); }
 }, {passive:true});
-
+ 
 document.addEventListener('click', e => {
   if (e.target.closest('.nav') || e.target.closest('button')) return;
   e.clientX > window.innerWidth * 0.6 ? next() : (e.clientX < window.innerWidth * 0.4 ? prev() : null);
 });
-
+ 
 updateUI();
 </script>
 </body>
